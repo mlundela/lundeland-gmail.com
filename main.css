@@ -1,0 +1,65 @@
+.container table .is-centered {
+    text-align: center;
+}
+
+.flex {
+    display: flex;
+}
+
+.percent {
+    margin-left: 4px;
+}
+
+
+
+/* STAMME */
+
+table.stamme {
+    margin-left: 4px;
+}
+
+table.stamme {
+    border: 8px solid rgba(0, 0, 0, 0.5);
+    margin-top: -7px;
+}
+
+table.stamme tr th {
+    color: #111;
+    background-color: #fff;
+    text-align: center;
+    width: 16px;
+}
+
+table.stamme tr td{
+    color: #111;
+    background-color: #fff;
+    text-align: center;
+    font-weight: bold;
+    width: 16px;
+}
+
+
+/* FILTER */
+
+table.filter {
+    margin-left: 4px;
+    width: 60px;
+}
+
+table.filter tr th {
+    text-align: center;
+    width: 20px;
+}
+
+table.filter tr td {
+    text-align: center;
+    font-weight: bold;
+    width: 20px;
+}
+
+.font-small {
+    font-size: 0.75em;
+}
+
+
+
