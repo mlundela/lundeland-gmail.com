@@ -31,12 +31,17 @@ table.stamme tr th {
 }
 
 table.stamme tr td{
-    color: #111;
+    color: #fff;
     background-color: #fff;
     text-align: center;
     font-weight: bold;
     width: 16px;
+    cursor: pointer;
 }
+
+table.stamme td.selected {
+    color: #111;
+} 
 
 
 /* FILTER */
@@ -55,10 +60,17 @@ table.filter tr td {
     text-align: center;
     font-weight: bold;
     width: 20px;
+    color: #3a3f44
 }
 
-.font-small {
+table.filter td.selected {
+    color: #aaa;
+} 
+
+table.filter tr.min-max td {
     font-size: 0.75em;
+    color: #aaa;
+    text-align: left
 }
 
 
