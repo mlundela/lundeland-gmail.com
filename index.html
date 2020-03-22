@@ -27,6 +27,59 @@
 
     
     <section>
+        <div id="project" class="container">
+            <div class="field is-grouped">
+
+                <!-- <div class="field mr-20">
+                    <div class="control">
+                        <button class="button">
+                          <span>Create new</span>
+                        </button>  
+                      </div>
+                </div> -->
+
+                <div class="field has-addons mr-20">
+                    <div class="control">
+                        <input id="project-name" class="input" type="text" placeholder="Project name">
+                    </div>
+                    <div class="control">
+                        <button class="button">
+                            <span>Save</span>
+                          </button>
+                    </div>
+                </div>
+
+                <div class="field has-addons mr-20">
+                    <div class="control">
+                        <div class="select">
+                            <select>
+                              <option>Rounded dropdown</option>
+                              <option>With options</option>
+                            </select>
+                          </div>
+                    </div>
+                    <div class="control">
+                        <button class="button ">
+                            <span>Load</span>
+                          </button>
+                    </div>
+                    <div class="control">
+                      <button class="button">
+                        <span>Delete</span>
+                      </button>  
+                    </div>
+                </div>
+
+                <div class="field mr-20">
+                    <div class="control">
+                        <button class="button is-warning is-outlined">
+                          <span>Clear</span>
+                        </button>  
+                      </div>
+                </div>
+            </div>
+
+        </div>
         <div class="container flex">
             <table class="table is-bordered is-hoverable">
                 <thead>
@@ -96,29 +149,31 @@
                 </tbody>
             </table>
 
-            <table class="table is-bordered is-hoverable stamme">
-                <thead>
-                    <tr>
-                        <th colspan="3" class="is-centered">STAMME</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><th>H</th><th>U</th><th>B</th></tr>
-                    <tr><td>x</td><td>x</td><td>x</td></tr>
-                    <tr><td>x</td><td>x</td><td>x</td></tr>
-                    <tr><td>x</td><td>x</td><td>x</td></tr>
-                    <tr><td>x</td><td>x</td><td>x</td></tr>
-                    <tr><td>x</td><td>x</td><td>x</td></tr>
-                    <tr><td>x</td><td>x</td><td>x</td></tr>
-                    <tr><td>x</td><td>x</td><td>x</td></tr>
-                    <tr><td>x</td><td>x</td><td>x</td></tr>
-                    <tr><td>x</td><td>x</td><td>x</td></tr>
-                    <tr><td>x</td><td>x</td><td>x</td></tr>
-                    <tr><td>x</td><td>x</td><td>x</td></tr>
-                    <tr><td>x</td><td>x</td><td>x</td></tr>
-                </tbody>
-            </table>
-            
+            <div class="stamme-container">
+                <table id="stamme" class="table is-bordered is-hoverable stamme">
+                    <thead>
+                        <tr>
+                            <th colspan="3" class="is-centered">STAMME</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>H</th><th>U</th><th>B</th></tr>
+                        <tr><td>x</td><td>x</td><td>x</td></tr>
+                        <tr><td>x</td><td>x</td><td>x</td></tr>
+                        <tr><td>x</td><td>x</td><td>x</td></tr>
+                        <tr><td>x</td><td>x</td><td>x</td></tr>
+                        <tr><td>x</td><td>x</td><td>x</td></tr>
+                        <tr><td>x</td><td>x</td><td>x</td></tr>
+                        <tr><td>x</td><td>x</td><td>x</td></tr>
+                        <tr><td>x</td><td>x</td><td>x</td></tr>
+                        <tr><td>x</td><td>x</td><td>x</td></tr>
+                        <tr><td>x</td><td>x</td><td>x</td></tr>
+                        <tr><td>x</td><td>x</td><td>x</td></tr>
+                        <tr><td>x</td><td>x</td><td>x</td></tr>
+                    </tbody>
+                </table>
+                <button class="button is-small fill">FILL</button>
+            </div>
 
 
 
@@ -228,9 +283,25 @@
     </section>
     <!-- <canvas id="myCanvas" width="360" height="360" style="border: 1px solid #ccc;"></canvas> -->
     <!-- <canvas id="myCanvas" width="1200" height="800" style="border: 1px solid #ccc;"></canvas> -->
+    <script src="name-generator.js" type="text/javascript"></script>
     <script src="main.js" type="text/javascript"></script>
     <script>
 
+        var state = initState();
+        console.log(state)
+
+        function initState() {
+            return {
+                name: randomName(),
+                stamme: [[],[],[],[],[],[],[],[],[],[],[],[]],
+                filters: [
+                    [[],[],[],[],[],[],[],[],[],[],[],[]],
+                    [[],[],[],[],[],[],[],[],[],[],[],[]],
+                    [[],[],[],[],[],[],[],[],[],[],[],[]],
+                    [[],[],[],[],[],[],[],[],[],[],[],[]],
+                ],
+            }
+        }
 
         function addEventListenerToClass(className, action, callback) {
             var elements = document.getElementsByClassName(className)
@@ -240,6 +311,7 @@
         }
 
         function clickOnStamme(e) {
+            debugger;
             if (e.target.nodeName === 'TD') {
                 if (e.target.classList.contains('selected')) {
                     e.target.classList.remove('selected');
@@ -249,74 +321,125 @@
             }
         }
 
+        function setState(s) {
+            state = s;
+            updateTable('stamme', state.stamme);
+            updateTable('filter-1', state.filters[0]);
+            updateTable('filter-2', state.filters[1]);
+            updateTable('filter-3', state.filters[2]);
+            updateTable('filter-4', state.filters[3]);
+        }
+
+        function selectAllOnStamme() {
+            setState({...state, stamme: state.stamme.map(x => [0, 1, 2])});
+        }
+
+        function clearTable(id) {
+            var table = document.getElementById(id);
+            for (var i = 2, row; row = table.rows[i]; i++) {
+                for (var j = 0, col; col = row.cells[j]; j++) {
+                    col.classList.remove('selected');
+                }  
+            }
+        }
+
+        function updateTable(id, stamme) {
+            var table = document.getElementById(id);
+            for (var i = 2, row; row = table.rows[i]; i++) {
+                for (var j = 0, col; col = row.cells[j]; j++) {
+                    var selected = stamme[i - 2].includes(j);
+                    if (selected && !col.classList.contains('selected')) {
+                        col.classList.add('selected');
+                    } else if (!selected && col.classList.contains('selected')) {
+                        col.classList.remove('selected');
+                    }
+                }  
+            }
+        }
+
+        function loadProject(name) {
+            setState(localStorage.getItem(name));
+        }
+
+        function saveProject(name, state) {
+            localStorage.setItem(name, state);
+        }
+
+        function createNewProject(name) {
+            localStorage.setItem(name, initState());
+            loadProject(name);
+        }
+
+
         document.addEventListener('DOMContentLoaded', function () {
 
             addEventListenerToClass('stamme', 'click', clickOnStamme);
             addEventListenerToClass('filter', 'click', clickOnStamme);
+            addEventListenerToClass('fill', 'click', selectAllOnStamme);
 
-            var canvas = document.getElementById("myCanvas");
-            var ctx = canvas.getContext("2d");
+            // var canvas = document.getElementById("myCanvas");
+            // var ctx = canvas.getContext("2d");
 
-            // ctx.fillStyle = "#000000";
-            // ctx.clearRect(0, 0, 900, 450);
+            // // ctx.fillStyle = "#000000";
+            // // ctx.clearRect(0, 0, 900, 450);
 
-            var matches = [
-                [65, 17, 18],
-                [48, 27, 25],
-                [34, 21, 45],
-                [41, 28, 31],
-                [36, 26, 38],
-                [50, 25, 25],
-                [49, 24, 27],
-                [36, 27, 37],
-                [51, 24, 25],
-                [60, 19, 21],
-                [38, 29, 33],
-                [42, 28, 30],
-            ];
+            // var matches = [
+            //     [65, 17, 18],
+            //     [48, 27, 25],
+            //     [34, 21, 45],
+            //     [41, 28, 31],
+            //     [36, 26, 38],
+            //     [50, 25, 25],
+            //     [49, 24, 27],
+            //     [36, 27, 37],
+            //     [51, 24, 25],
+            //     [60, 19, 21],
+            //     [38, 29, 33],
+            //     [42, 28, 30],
+            // ];
 
-            // Kor mange rekker i kvar rute: 3 ** level
-            var level = 8;
-
-
-            // var ps = calculateProbabilities(matches)
-            // var m = toMatrix(ps, parseInt(level))
+            // // Kor mange rekker i kvar rute: 3 ** level
+            // var level = 8;
 
 
-            // drawMatrix(m, canvasSize);
-            // drawHistogram(m, 1200, 800);
+            // // var ps = calculateProbabilities(matches)
+            // // var m = toMatrix(ps, parseInt(level))
 
 
-            function drawHistogram(m, canvasWidth, canvasHeight) {
-                var max = m[0].total.count;
-                ctx.fillStyle = "rgba(255,0,0,0.8)";
-                for (var i = 0; i < 9; i++) {
-                    for (var j = 0; j < 9; j++) {
-                        var n = i * 9 + j;
-                        var height = canvasHeight * m[n].selected.count / max;
-                        var x = canvasWidth * n / 81;
-                        var y = canvasHeight - height;
-                        ctx.fillRect(x, y, canvasWidth / 81, height);
-                    }
-                }
-            }
+            // // drawMatrix(m, canvasSize);
+            // // drawHistogram(m, 1200, 800);
 
-            function drawMatrix(m, canvasSize) {
-                var cellSize = canvasSize / 9;
-                var max = m[0];
-                var min = 0
-                for (var i = 0; i < 9; i++) {
-                    for (var j = 0; j < 9; j++) {
-                        var r = 255;
-                        var g = 0;
-                        var b = 0;
-                        var x = (m[i * 9 + j] - min) / (max - min);
-                        var a = 225 * x;
-                        ctx.fillStyle = "rgba(" + r + "," + g + "," + b + "," + (a / 255) + ")";
-                        ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
-                    }
-                }
-            }
+
+            // function drawHistogram(m, canvasWidth, canvasHeight) {
+            //     var max = m[0].total.count;
+            //     ctx.fillStyle = "rgba(255,0,0,0.8)";
+            //     for (var i = 0; i < 9; i++) {
+            //         for (var j = 0; j < 9; j++) {
+            //             var n = i * 9 + j;
+            //             var height = canvasHeight * m[n].selected.count / max;
+            //             var x = canvasWidth * n / 81;
+            //             var y = canvasHeight - height;
+            //             ctx.fillRect(x, y, canvasWidth / 81, height);
+            //         }
+            //     }
+            // }
+
+            // function drawMatrix(m, canvasSize) {
+            //     var cellSize = canvasSize / 9;
+            //     var max = m[0];
+            //     var min = 0
+            //     for (var i = 0; i < 9; i++) {
+            //         for (var j = 0; j < 9; j++) {
+            //             var r = 255;
+            //             var g = 0;
+            //             var b = 0;
+            //             var x = (m[i * 9 + j] - min) / (max - min);
+            //             var a = 225 * x;
+            //             ctx.fillStyle = "rgba(" + r + "," + g + "," + b + "," + (a / 255) + ")";
+            //             ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+            //         }
+            //     }
+            // }
 
 
 

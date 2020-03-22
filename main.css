@@ -6,13 +6,41 @@
     display: flex;
 }
 
+.mr-20 {
+     margin-right: 20px; 
+}
+
 .percent {
     margin-left: 4px;
 }
 
 
 
+
+/* PROJECT BUTTONS */
+
+#project {
+    margin-bottom: 20px;
+}
+
+#project input,
+#project select {
+    color: #333;
+}
+
+#project-name {
+    width: 300px;
+}
+
+#project-name::placeholder {
+    color: #aaa;
+}
+
 /* STAMME */
+
+div.stamme-container button.fill {
+    margin: -16px 0 0 40px;
+}
 
 table.stamme {
     margin-left: 4px;
@@ -60,7 +88,8 @@ table.filter tr td {
     text-align: center;
     font-weight: bold;
     width: 20px;
-    color: #3a3f44
+    color: #3a3f44;
+    cursor: pointer;
 }
 
 table.filter td.selected {
@@ -70,7 +99,7 @@ table.filter td.selected {
 table.filter tr.min-max td {
     font-size: 0.75em;
     color: #aaa;
-    text-align: left
+    text-align: left;
 }
 
 
