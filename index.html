@@ -319,13 +319,41 @@
         }
 
         function clickOnStamme(e) {
-            debugger;
-            if (e.target.nodeName === 'TD') {
-                if (e.target.classList.contains('selected')) {
-                    e.target.classList.remove('selected');
-                } else {
-                    e.target.classList.add('selected');
+
+            function getStamme(id) {
+                switch (id) {
+                    case 'stamme': return [...state.stamme];
+                    case 'filter-1': return [...state.filters[0]];
+                    case 'filter-2': return [...state.filters[1]];
+                    case 'filter-3': return [...state.filters[2]];
+                    case 'filter-4': return [...state.filters[3]];
+                    default: throw new Error('Unknown stamme id', id);
                 }
+            }
+            
+            if (e.target.nodeName === 'TD') {
+                var id = e.target.parentElement.parentElement.parentElement.id;
+                var stamme = getStamme(id);
+                var table = document.getElementById(id);
+                for (var i = 0, row; row = table.rows[i + 2], i < 12; i++) {
+                    for (var j = 0, col; col = row.cells[j]; j++) {
+                        if (col === e.target && !e.target.classList.contains('selected')) {
+                            stamme[i].push(j)
+                        } else if (col !== e.target && e.target.classList.contains('selected')) {
+                            stamme[i].push(j)
+                        }
+                    }  
+                }
+                var out = {...state};
+                switch (id) {
+                    case 'stamme': out.stamme = stamme; break;
+                    case 'filter-1': out.filters[0] = stamme; break;
+                    case 'filter-2': out.filters[1] = stamme; break;
+                    case 'filter-3': out.filters[2] = stamme; break;
+                    case 'filter-4': out.filters[3] = stamme; break;
+                    default: throw new Error('Unknown stamme id', id);
+                }
+                setState(out);
             }
         }
 
