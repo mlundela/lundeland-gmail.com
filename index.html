@@ -293,6 +293,8 @@
 
         document.getElementById('project-create').addEventListener('click', createNewProject);
 
+        document.getElementById('projects-select').addEventListener('change', loadProject);
+
         function createNewProject() {
             setState(initState());
             loadProjects();
@@ -399,9 +401,10 @@
             }
         }
 
-        function loadProject(name) {
+        function loadProject(e) {
             var projects = getProjects();
-            return projects.find(p => p.name === name);
+            var project = projects.find(p => p.name === e.target.value);
+            setState(project);
         }
 
         function saveProject(state) {
@@ -433,7 +436,6 @@
                 var opt = document.createElement('option');
                 opt.value = p.name;
                 opt.text = p.name;
-                opt
                 select.appendChild(opt);
             }
         }
