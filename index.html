@@ -67,7 +67,7 @@
 
                 <div class="field mr-20">
                     <div class="control">
-                        <button class="button is-warning is-outlined">
+                        <button class="button is-warning is-outlined" id="project-clear">
                           <span>Clear</span>
                         </button>  
                       </div>
@@ -292,17 +292,21 @@
         });
 
         document.getElementById('project-create').addEventListener('click', createNewProject);
-
         document.getElementById('projects-select').addEventListener('change', loadProject);
+        document.getElementById('project-clear').addEventListener('click', clearProject);
+
+        function clearProject() {
+            setState(initState(state.name));
+        }
 
         function createNewProject() {
             setState(initState());
             loadProjects();
         }
 
-        function initState() {
+        function initState(name) {
             return {
-                name: randomName(),
+                name: name || randomName(),
                 stamme: [[],[],[],[],[],[],[],[],[],[],[],[]],
                 filters: [
                     [[],[],[],[],[],[],[],[],[],[],[],[]],
@@ -338,13 +342,15 @@
                 var stamme = getStamme(id);
                 var table = document.getElementById(id);
                 for (var i = 0, row; row = table.rows[i + 2], i < 12; i++) {
+                    var r = [];
                     for (var j = 0, col; col = row.cells[j]; j++) {
-                        if (col === e.target && !e.target.classList.contains('selected')) {
-                            stamme[i].push(j)
-                        } else if (col !== e.target && e.target.classList.contains('selected')) {
-                            stamme[i].push(j)
+                        if (col === e.target && !col.classList.contains('selected')) {
+                            r.push(j)
+                        } else if (col !== e.target && col.classList.contains('selected')) {
+                            r.push(j)
                         }
                     }  
+                    stamme[i] = r;
                 }
                 var out = {...state};
                 switch (id) {
