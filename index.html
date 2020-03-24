@@ -30,20 +30,20 @@
         <div id="project" class="container">
             <div class="field is-grouped">
 
-                <!-- <div class="field mr-20">
+                <div class="field mr-20">
                     <div class="control">
-                        <button class="button">
+                        <button class="button" id="project-create">
                           <span>Create new</span>
                         </button>  
                       </div>
-                </div> -->
+                </div>
 
                 <div class="field has-addons mr-20">
                     <div class="control">
                         <input id="project-name" class="input" type="text" placeholder="Project name">
                     </div>
                     <div class="control">
-                        <button class="button">
+                        <button class="button" id="project-save-btn">
                             <span>Save</span>
                           </button>
                     </div>
@@ -52,16 +52,11 @@
                 <div class="field has-addons mr-20">
                     <div class="control">
                         <div class="select">
-                            <select>
+                            <select id="projects-select">
                               <option>Rounded dropdown</option>
                               <option>With options</option>
                             </select>
                           </div>
-                    </div>
-                    <div class="control">
-                        <button class="button ">
-                            <span>Load</span>
-                          </button>
                     </div>
                     <div class="control">
                       <button class="button">
@@ -177,7 +172,7 @@
 
 
 
-            <table class="table is-bordered filter">
+            <table class="table is-bordered filter" id="filter-1">
                 <thead>
                     <tr>
                         <th colspan="3" class="is-centered">FILTER</th>
@@ -203,7 +198,7 @@
             </table>
 
 
-            <table class="table is-bordered filter">
+            <table class="table is-bordered filter" id="filter-2">
                 <thead>
                     <tr>
                         <th colspan="3" class="is-centered">FILTER</th>
@@ -229,7 +224,7 @@
             </table>
 
 
-            <table class="table is-bordered filter">
+            <table class="table is-bordered filter" id="filter-3">
                 <thead>
                     <tr>
                         <th colspan="3" class="is-centered">FILTER</th>
@@ -255,7 +250,7 @@
             </table>
 
 
-            <table class="table is-bordered filter">
+            <table class="table is-bordered filter" id="filter-4">
                 <thead>
                     <tr>
                         <th colspan="3" class="is-centered">FILTER</th>
@@ -287,8 +282,21 @@
     <script src="main.js" type="text/javascript"></script>
     <script>
 
-        var state = initState();
-        console.log(state)
+        var state = {};
+
+        createNewProject();
+
+        document.getElementById('project-save-btn').addEventListener('click', () => {
+            saveProject(state);
+            loadProjects();
+        });
+
+        document.getElementById('project-create').addEventListener('click', createNewProject);
+
+        function createNewProject() {
+            setState(initState());
+            loadProjects();
+        }
 
         function initState() {
             return {
@@ -321,8 +329,14 @@
             }
         }
 
+        function updateProjectName(name) {
+            var input = document.getElementById('project-name');
+            input.value = name;
+        }
+
         function setState(s) {
             state = s;
+            updateProjectName(state.name);
             updateTable('stamme', state.stamme);
             updateTable('filter-1', state.filters[0]);
             updateTable('filter-2', state.filters[1]);
@@ -345,7 +359,7 @@
 
         function updateTable(id, stamme) {
             var table = document.getElementById(id);
-            for (var i = 2, row; row = table.rows[i]; i++) {
+            for (var i = 2, row; row = table.rows[i], i < 14; i++) {
                 for (var j = 0, col; col = row.cells[j]; j++) {
                     var selected = stamme[i - 2].includes(j);
                     if (selected && !col.classList.contains('selected')) {
@@ -358,17 +372,48 @@
         }
 
         function loadProject(name) {
-            setState(localStorage.getItem(name));
+            var projects = getProjects();
+            return projects.find(p => p.name === name);
         }
 
-        function saveProject(name, state) {
-            localStorage.setItem(name, state);
+        function saveProject(state) {
+            var projects = getProjects();
+            saveProjects([
+                ...projects.filter(p => p.name !== state.name),
+                state
+            ]);
         }
 
-        function createNewProject(name) {
-            localStorage.setItem(name, initState());
-            loadProject(name);
+        function getProjects() {
+            var projects = localStorage.getItem('projects');
+            if (projects) {
+                return JSON.parse(projects)   
+            } else {
+                return [];
+            }
         }
+
+        function saveProjects(projects) {
+            localStorage.setItem('projects', JSON.stringify(projects));
+        }
+
+        function loadProjects() {
+            var select = document.getElementById('projects-select');
+            select.innerHTML = '';
+            var projects = getProjects();
+            for (var p of projects) {
+                var opt = document.createElement('option');
+                opt.value = p.name;
+                opt.text = p.name;
+                opt
+                select.appendChild(opt);
+            }
+        }
+
+        // function createNewProject(name) {
+        //     localStorage.setItem(name, initState());
+        //     loadProject(name);
+        // }
 
 
         document.addEventListener('DOMContentLoaded', function () {

@@ -135,8 +135,8 @@ function capitalize(name) {
 }
 
 function randomName() {
-    var player = players[getRandomInt(0, players.length)]
-    var adj = adjectives[getRandomInt(0, adjectives.length)]
+    var player = players[getRandomInt(0, players.length - 1)]
+    var adj = adjectives[getRandomInt(0, adjectives.length - 1)]
     return capitalize(adj) + ' ' + player
     
 }
