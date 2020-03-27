@@ -11,7 +11,9 @@
 }
 
 .percent {
-    margin-left: 4px;
+    padding: 0;
+    margin: 0;
+    margin-left: 5px;
 }
 
 
@@ -43,7 +45,8 @@ div.stamme-container button.fill {
 }
 
 table.stamme {
-    margin-left: 4px;
+    margin: 0;
+    margin-left: 5px;
 }
 
 table.stamme {
@@ -75,8 +78,9 @@ table.stamme td.selected {
 /* FILTER */
 
 table.filter {
-    margin-left: 4px;
-    width: 60px;
+    margin: 0;
+    margin-left: 5px;
+    /* width: 60px; */
 }
 
 table.filter tr th {

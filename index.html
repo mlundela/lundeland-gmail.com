@@ -286,14 +286,15 @@
 
         createNewProject();
 
-        document.getElementById('project-save-btn').addEventListener('click', () => {
-            saveProject(state);
-            loadProjects();
-        });
-
         document.getElementById('project-create').addEventListener('click', createNewProject);
+        document.getElementById('project-save-btn').addEventListener('click', saveProjectState);
         document.getElementById('projects-select').addEventListener('change', loadProject);
         document.getElementById('project-clear').addEventListener('click', clearProject);
+
+        function saveProjectState() {
+            saveProject(state);
+            loadProjects();
+        }
 
         function clearProject() {
             setState(initState(state.name));
@@ -386,7 +387,7 @@
 
         function clearTable(id) {
             var table = document.getElementById(id);
-            for (var i = 2, row; row = table.rows[i]; i++) {
+            for (var i = 0, row; row = table.rows[i + 2]; i++) {
                 for (var j = 0, col; col = row.cells[j]; j++) {
                     col.classList.remove('selected');
                 }  
@@ -395,9 +396,9 @@
 
         function updateTable(id, stamme) {
             var table = document.getElementById(id);
-            for (var i = 2, row; row = table.rows[i], i < 14; i++) {
+            for (var i = 0, row; row = table.rows[i + 2], i < 12; i++) {
                 for (var j = 0, col; col = row.cells[j]; j++) {
-                    var selected = stamme[i - 2].includes(j);
+                    var selected = stamme[i].includes(j);
                     if (selected && !col.classList.contains('selected')) {
                         col.classList.add('selected');
                     } else if (!selected && col.classList.contains('selected')) {
